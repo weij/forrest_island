@@ -20,6 +20,6 @@ defmodule IslandsEngine.Island do
     island_string = island
                     |> Agent.get(fn state -> state end)
                     |> Enum.reduce("", fn coord, acc -> "#{acc}, #{Coordinate.to_string(coord)}" end)
-    ["[", String.replace_leading(island_string, ", ", ""), "]"]                 
+    "[" <> String.replace_leading(island_string, ", ", "") <> "]"               
   end
 end
