@@ -6,7 +6,7 @@ defmodule IslandsEngine.Player do
   def start_link(name \\ :none) do
     with {:ok, board} = Board.start_link(),
          {:ok, island_set} = IslandSet.start_link() do
-      Agent.start_link(fn -> %Player{board: board, island_set: island_set} end)       
+      Agent.start_link(fn -> %Player{name: name, board: board, island_set: island_set} end)       
     end
   end
 
