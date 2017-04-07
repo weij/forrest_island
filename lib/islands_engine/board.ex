@@ -31,7 +31,7 @@ defmodule IslandsEngine.Board do
   end
 
   def to_string(board) do
-    ["%{", string_body(board), "}"]
+    "%{" <> string_body(board) <> "}"
   end
 
   defp string_body(board) do
