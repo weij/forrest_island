@@ -30,6 +30,10 @@ defmodule IslandsEngine.Game do
     GenServer.call(pid, {:guess, player, coordinate})
   end
 
+  def stop(pid) do
+    GenServer.cast(pid, :stop)
+  end
+
   # CALLBACKS
 
   def start_link(name) when is_binary(name) and byte_size(name) > 0 do
@@ -68,6 +72,10 @@ defmodule IslandsEngine.Game do
       |> Player.guess_coordinate(coordinate)
       |> forest_check(opponent, coordinate)
       |> win_check(opponent, state)
+  end
+
+  def handle_cast(:stop, state) do
+    {:stop, :normal, state}
   end
 
   defp opponent(state, :player1), do: state.player2
