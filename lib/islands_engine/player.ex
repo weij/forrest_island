@@ -30,6 +30,14 @@ defmodule IslandsEngine.Player do
     Agent.get(player, fn state -> state.island_set end)
   end
 
+  def guess_coordinate(opposite_board, coordinate) do
+    Board.guess_coordinate(opposite_board, coordinate)
+    case Board.coordinate_hit?(opposite_board, coordinate) do
+      true -> :hit
+      false -> :miss
+    end
+  end
+
   def to_string(player) do
     "%Player{" <> string_body(player) <> "}"
   end

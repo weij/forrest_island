@@ -26,6 +26,10 @@ defmodule IslandsEngine.Game do
     GenServer.call(pid, {:set_island_coordinates, player, island, coordinates})
   end
 
+  def guess_coordinate(pid, player, coordinate) when is_atom(player) and is_atom(coordinate) do
+    GenServer.call(pid, {:guess, player, coordinate})
+  end
+
   # CALLBACKS
 
   def start_link(name) when not is_nil(name) do
@@ -55,4 +59,17 @@ defmodule IslandsEngine.Game do
 
     {:reply, :ok, state}
   end
+
+  def handle_call({:guess, player, coordinate}, _from, state) do
+    response = 
+      state
+      |> opponent(player)
+      |> Player.get_board()
+      |> Player.guess_coordinate(coordinate)
+    {:reply, response, state}
+  end
+
+  defp opponent(state, :player1), do: state.player2
+  defp opponent(state, _player), do: state.player1  
+  
 end
