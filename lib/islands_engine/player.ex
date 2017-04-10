@@ -14,6 +14,11 @@ defmodule IslandsEngine.Player do
     Agent.update(player, fn state -> Map.put(state, :name, name) end)
   end
   
+  @doc """
+    Set list of coordinates pid with an valid island type
+
+    At begining, Board initializes all coordinates pid. IslandSet initializes 5 different shapes of islands. 
+  """
   def set_island_coordinates(player, island, coordinates) do
     with board = get_board(player),
          island_set = get_island_set(player),

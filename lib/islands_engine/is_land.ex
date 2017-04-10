@@ -1,4 +1,9 @@
 defmodule IslandsEngine.Island do
+  @moduledoc """
+    Island, which holding a list of coordinates. The module contains a series of functions to operate on the collection, or enumerate 
+    through the collection item, individually.
+  """
+
   alias IslandsEngine.Coordinate
 
   def start_link() do
