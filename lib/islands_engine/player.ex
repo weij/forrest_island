@@ -44,12 +44,12 @@ defmodule IslandsEngine.Player do
   end
 
   def forested_island(opponent, coordinate) do
-    board = Player.get_board(opponent)
-    island_key = Board.coordinate_island(board, coordinate)
-    island_set = Player.get_island_set(opponent)
-
-    case IslandSet.forested?(island_set, island_key) do
-      true -> island_key
+    with board = Player.get_board(opponent),
+         island_set = Player.get_island_set(opponent),
+         island_key = Board.coordinate_island(board, coordinate),
+         true <- IslandSet.forested?(island_set, island_key) do
+      island_key
+    else 
       false -> :none
     end
   end

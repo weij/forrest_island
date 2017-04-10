@@ -11,11 +11,13 @@ defmodule IslandsEngine.IslandSet do
   
   @spec set_island_coordinates(pid, type(), pid) :: :ok
   def set_island_coordinates(island_set, island_key, new_coordinates) do
-    island = Agent.get(island_set, fn state -> Map.get(state, island_key) end)
-    original_coordinates = Agent.get(island, fn state -> state end)
-    Island.replace_coordinates(island, new_coordinates)
-    Coordinate.set_all_in_island(original_coordinates, :none)
-    Coordinate.set_all_in_island(new_coordinates, island_key)
+    with island = Agent.get(island_set, fn state -> 
+                    Map.get(state, island_key) end),
+         original_coordinates = Agent.get(island, fn state -> state end) do
+      Island.replace_coordinates(island, new_coordinates)
+      Coordinate.set_all_in_island(original_coordinates, :none)
+      Coordinate.set_all_in_island(new_coordinates, island_key)     
+    end
   end
 
   def forested?(_island_set, :none) do
