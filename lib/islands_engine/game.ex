@@ -32,8 +32,8 @@ defmodule IslandsEngine.Game do
 
   # CALLBACKS
 
-  def start_link(name) when not is_nil(name) do
-    GenServer.start_link(__MODULE__, name)
+  def start_link(name) when is_binary(name) and byte_size(name) > 0 do
+    GenServer.start_link(__MODULE__, name, name: {:global, "game:#{name}"})
   end
 
   def init(name) do
