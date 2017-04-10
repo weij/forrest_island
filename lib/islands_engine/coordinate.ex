@@ -33,6 +33,10 @@ defmodule IslandsEngine.Coordinate do
       Map.put(state, :guessed?, true) end)
   end
 
+  def set_all_in_island(coordinates, value) when is_list(coordinates) and is_atom(value) do
+    Enum.each(coordinates, fn coord -> set_in_island(coord, value) end)
+  end
+
   def set_in_island(coordinate, value) when is_atom(value) do
     Agent.update(coordinate, fn state -> 
       Map.put(state, :in_island, value) end)
