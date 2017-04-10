@@ -18,6 +18,20 @@ defmodule IslandsEngine.IslandSet do
     Coordinate.set_all_in_island(new_coordinates, island_key)
   end
 
+  def forested?(_island_set, :none) do
+    false
+  end
+  def forested?(island_set, island_key) do
+    island_set
+    |> Agent.get(fn state -> Map.get(state, island_key) end)
+    |> Island.forested?
+  end
+
+  def all_forested?(island_set) do
+    islands = Agent.get(island_set, &(&1))
+    Enum.all?(keys(), fn key -> Island.forested?(Map.get(islands, key)) end)
+  end
+
   def to_string(island_set) do
     "%IslandSet{" <> string_body(island_set) <> "}"
   end
